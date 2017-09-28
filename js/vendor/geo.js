@@ -45,6 +45,20 @@ function getDataUrl(daysAgo) {
     return dataUrl;
 };
 
+function onLocationFound(e) {
+  var radius = e.accuracy / 2;
+
+  L.marker(e.latlng).addTo(map)
+      .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+  L.circle(e.latlng, radius).addTo(map);
+}
+
+function onLocationError(e) {
+  alert(e.message);
+  map.setView([37.753141, -122.43858], 11);
+}
+
 function getOpacity(d, breaks) {
     var opacity = {
         '0': 0,
@@ -62,8 +76,13 @@ function getOpacity(d, breaks) {
 }
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoid0pibFBCdyJ9.xAls22npVNFVBEEFfL1vnQ';
-var map = L.mapbox.map('map', 'lyzidiamond.kp20mhf6').setView([37.753141, -122.43858], 11);
+var map = L.mapbox.map('map', 'lyzidiamond.kp20mhf6').fitWorld();
+//setView([37.753141, -122.43858], 11);
 var callLayer = new L.layerGroup().addTo(map);
+
+map.locate({setView: true, maxZoom:11});
+map.on('locationfound', onLocationFound);
+map.on('locationerror', onLocationError);
 
 var dataUrl = getDataUrl(7);
 var breaks;
