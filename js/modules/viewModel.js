@@ -7,7 +7,7 @@ var viewModelModule = (function(window, $) {
         searchRadius: 1320,
         searchShapeType: 'radial'
     };
-
+    console.log(map);
     var viewModel = {
         startDate: null,
         endDate: null,

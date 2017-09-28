@@ -57,6 +57,7 @@ function onLocationFound(e) {
 function onLocationError(e) {
   alert(e.message);
   map.setView([37.753141, -122.43858], 11);
+  console.log(map);
 }
 
 function getOpacity(d, breaks) {
