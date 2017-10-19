@@ -47,7 +47,9 @@ function getDataUrl(daysAgo) {
 
 function onLocationFound(e) {
   var radius = e.accuracy / 2;
-
+  callLayer.setGeoJSON({
+    
+  });
   L.marker(e.latlng).addTo(map)
       .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
@@ -77,13 +79,19 @@ function getOpacity(d, breaks) {
 }
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoid0pibFBCdyJ9.xAls22npVNFVBEEFfL1vnQ';
-var map = L.mapbox.map('map', 'lyzidiamond.kp20mhf6').fitWorld();
-//setView([37.753141, -122.43858], 11);
+var map = L.mapbox.map('map', 'lyzidiamond.kp20mhf6').setView([37.753141, -122.43858], 11);
 var callLayer = new L.layerGroup().addTo(map);
 
-map.locate({setView: true, maxZoom:11});
-map.on('locationfound', onLocationFound);
-map.on('locationerror', onLocationError);
+if(!confirm('Allow Location?') || !navigator.geolocation){
+  alert('Geolocation is not available or position can\'t be found!');
+}
+else{
+  map.locate();
+}
+
+// map.locate({setView: true, maxZoom:11});
+// map.on('locationfound', onLocationFound);
+// map.on('locationerror', onLocationError);
 
 var dataUrl = getDataUrl(7);
 var breaks;
